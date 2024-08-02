@@ -1,0 +1,18 @@
+class Solution {
+    public int maxArea(int[] a) {
+          int l=0;
+       int r=a.length-1;
+       int max=0;
+       while(l<r){
+        int lh=a[l];
+        int rh=a[r];
+        int min=Math.min(lh, rh);
+        max=Math.max(max, min*(r-l));
+        if(lh<rh)
+        l++;
+        else
+        r--;
+    } 
+        return max; 
+    }
+}
