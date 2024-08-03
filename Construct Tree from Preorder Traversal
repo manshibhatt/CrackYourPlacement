@@ -1,0 +1,23 @@
+class Solution{
+    int idx=0;
+    Node constructTree(int n, int pre[], char preLN[]){
+	  return construct(pre, preLN, n);
+    } 
+    
+    Node construct(int[] pre, char[] preLN, int n) {
+    
+        if(idx>=n) return null;
+        
+        Node node =new Node(pre[idx]);
+        
+        if(preLN[idx]=='N'){
+            idx++;
+            node.left=construct(pre,preLN,n);
+            node .right=construct(pre,preLN,n);
+            
+        }else{
+            idx++;
+        }
+        return node;
+    }
+}
