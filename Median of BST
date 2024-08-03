@@ -1,0 +1,23 @@
+class Tree
+{
+    public static float findMedian(Node root)
+    {
+         ArrayList<Integer> l = new ArrayList<>();
+        traversal(root, l);
+
+        int n = l.size();
+
+        if (n % 2 == 0) {
+            return (float)(l.get(n / 2 - 1) + l.get(n / 2)) / 2;
+        } else {
+            return (float)l.get(n / 2);
+        }
+    }
+
+    static void traversal(Node root, ArrayList<Integer> l) {
+        if (root == null) return;
+        traversal(root.left, l);
+        l.add(root.data);
+        traversal(root.right, l);
+    }
+}
