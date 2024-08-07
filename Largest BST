@@ -1,0 +1,48 @@
+class NodeValue{
+    public int maxNode,minNode,count;
+    
+    NodeValue(int minNode,int maxNode,int count){
+        this.maxNode=maxNode;
+        this.minNode=minNode;
+        this.count=count;
+    }
+    
+}
+
+
+class Solution{
+    
+    // Return the size of the largest sub-tree which is also a BST
+  
+    
+    static int largestBst(Node root)
+    {
+      
+      return postOrder(root).count;
+        
+    }
+    
+    static NodeValue postOrder(Node root){
+        if(root==null){
+             return new NodeValue(Integer.MAX_VALUE,Integer.MIN_VALUE,0);
+        }
+        
+        NodeValue left= postOrder(root.left);
+        NodeValue right=postOrder(root.right);
+        
+        
+        if(left.maxNode<root.data && right.minNode>root.data) {
+             return new NodeValue(
+                 Math.min(root.data ,left.minNode)
+                 ,Math.max(root.data,right.maxNode),
+                 left.count+right.count+1);
+        }
+        
+        return new NodeValue(Integer.MIN_VALUE,
+                  Integer.MAX_VALUE,
+                  Math.max(left.count,right.count));
+                  
+        
+    }
+    
+}
