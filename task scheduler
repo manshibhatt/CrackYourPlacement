@@ -1,0 +1,64 @@
+class Solution { 
+    class Pair{
+        int ch;
+        int cntr;
+
+        Pair(int ch,int cntr){
+            this.ch=ch;
+            this.cntr=cntr;
+        }
+    }
+    public int leastInterval(char[] tasks, int n) {
+       Pair[] arr=new Pair[26];
+
+       for(int i=0;i<26;i++) arr[i]=new Pair(0,0);
+
+
+       for(char c:tasks){ 
+        int v=arr[c-'A'].ch;
+        arr[c-'A']=new Pair(v+1,0);
+       } 
+
+       int m=tasks.length;
+       int ans=0;
+
+       while(m>0){ 
+
+//    for(Pair P:arr){
+//     System.out.print(P.ch+":"+P.cntr+" ");
+//    }
+//    System.out.println("    "+ans+"   ");
+
+        int min=n+1;
+        int idx=-1;
+        for(int i=0;i<26;i++){ 
+          Pair p=arr[i];
+          if(p.ch==0) continue;
+          if(p.cntr<min){
+           min=p.cntr;
+           idx=i;
+          }else if(p.cntr==min){
+              if(p.ch>arr[idx].ch) idx=i;
+          } 
+          if(p.cntr!=0) arr[i]=new Pair(p.ch,p.cntr-1);
+        }
+       
+           ans+=min;
+
+        for(int i=0;i<26;i++){ 
+          Pair p=arr[i];
+          if(p.cntr!=0) arr[i]=new Pair(p.ch,p.cntr-min);
+        }
+
+         //  System.out.println(min);
+         
+        arr[idx]=new Pair(arr[idx].ch-1,n);
+        ans++;
+
+        m--;
+       }
+
+      return ans;
+
+    }
+}
