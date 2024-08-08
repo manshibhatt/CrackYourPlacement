@@ -1,0 +1,11 @@
+class Solution {
+    int xor;
+    public int findDuplicate(int[] nums) {
+        int n=nums.length-1;
+        for(int i=1;i<=n;i++){
+            xor=xor^nums[i-1]^i;
+        }
+        xor^=nums[n];
+          return xor;
+    }
+}
