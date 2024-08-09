@@ -1,0 +1,87 @@
+class NumArray {
+
+    class SegTree{
+	int len;
+	int[] t;
+	
+	SegTree(int l){
+		len = l;
+		t=new int[4*len];
+	}
+
+    void build(int[] a, int v, int tl, int tr){
+		if(tl == tr){
+			t[v] = a[tl];
+			return;
+		}
+		int tm = (tl + tr)/2;
+		build(a, 2*v, tl, tm);
+		build(a, 2*v+1, tm+1, tr);
+		t[v] = t[2*v] + t[2*v+1];
+	}
+
+    int query(int v, int tl, int tr, int l, int r){
+		if(tl > r || tr < l) return 0; // no overlap
+		if(l <= tl && tr <= r) return t[v]; //Full overlap
+		
+		// Partial Overlap
+		int tm = (tl + tr)/2;
+		int leftAns = query(2*v, tl, tm, l, r);
+		int rightAns = query(2*v+1, tm+1, tr, l, r);
+		return leftAns + rightAns;
+	}
+
+
+    // Update at index id of nums to a value val (assign/override/set) -- update(1, 0, len-1, id, val) 
+	void update(int v, int tl, int tr, int id, int val){
+		// reached leaf node
+		if(tl == id && tr == id){
+			t[v] = val;
+			return;
+		}
+		if(id > tr || id < tl) return;
+		
+		int tm = (tl + tr)/2;
+		update(2*v, tl, tm, id, val);
+		update(2*v+1, tm+1, tr, id, val);
+		t[v] = t[2*v] + t[2*v+1];
+	}
+	
+	//over-ridden functions
+	void build(int[] a){
+		build(a, 1, 0, len-1);
+	}
+	
+	int query(int l, int r){
+		return query(1, 0, len-1, l, r);
+	}
+	
+	void update(int id, int val){
+		update(1, 0, len-1, id, val);
+	}
+
+    } 
+
+    SegTree segTree;
+ 
+    public NumArray(int[] nums) { 
+
+        segTree=new SegTree(nums.length);
+	    segTree.build(nums);
+    }
+    
+    public void update(int index, int val) {
+        segTree.update(index,val);
+    }
+    
+    public int sumRange(int left, int right) {
+        return segTree.query(left,right);
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(index,val);
+ * int param_2 = obj.sumRange(left,right);
+ */
