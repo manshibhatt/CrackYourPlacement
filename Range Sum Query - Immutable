@@ -1,0 +1,19 @@
+class NumArray {
+    int[] a;
+
+    public NumArray(int[] nums) {
+        a=new int[nums.length+1];
+
+       
+       for(int i=0;i<nums.length;i++){
+          a[i+1]=nums[i]+a[i];
+       }
+
+        for(int v:a) System.out.print(v+" ");
+
+    }
+    
+    public int sumRange(int left, int right) {
+        return a[right+1]-a[left];
+    }
+}
